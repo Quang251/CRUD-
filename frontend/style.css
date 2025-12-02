@@ -1,0 +1,83 @@
+/* frontend/style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 30px;
+    background-color: #f4f4f9; /* Màu nền xám nhạt cho dịu mắt */
+}
+
+h2 {
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* KHU VỰC NHẬP LIỆU */
+.input-group {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex-grow: 1; /* Tự giãn dài ra */
+    font-size: 16px;
+}
+
+/* KHU VỰC DANH SÁCH */
+.item {
+    background: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px; /* Bo tròn góc */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Đổ bóng nhẹ */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.item:hover {
+    transform: scale(1.01); /* Hiệu ứng phóng to nhẹ khi di chuột vào */
+}
+
+.item span {
+    font-weight: 500;
+    color: #444;
+}
+
+/* STYLE CHUNG CHO CÁC NÚT */
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.9; /* Làm mờ nhẹ khi di chuột */
+}
+
+/* MÀU RIÊNG CHO TỪNG LOẠI NÚT */
+.btn-add {
+    background-color: #28a745; 
+    font-size: 16px;
+}
+
+.btn-edit {
+    background-color: #007bff; 
+    margin-right: 5px;
+}
+
+.btn-delete {
+    background-color: #dc3545; 
+}
