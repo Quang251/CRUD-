@@ -24,7 +24,7 @@ This is a React-based Student Management System that allows users to:
 - Edit existing student information
 - Delete student records
 
-The application uses **json-server** as a mock REST API backend, which reads from a `db.json` file to simulate a real database.
+The application uses **MockAPI.io** as a free cloud-based REST API backend for data persistence. This eliminates the need for local server setup and allows easy deployment.
 
 ## ✨ Features
 
@@ -41,7 +41,7 @@ The application uses **json-server** as a mock REST API backend, which reads fro
 
 - **React 19.2.3**: Frontend framework
 - **React Router DOM 7.11.0**: Client-side routing
-- **json-server 0.17.4**: Mock REST API server
+- **MockAPI.io**: Free cloud-based REST API service
 - **React Hooks**: useState, useEffect for state management
 - **Fetch API**: For HTTP requests to the backend
 - **CSS3**: Styling and responsive design
@@ -59,10 +59,10 @@ CRUD/
 │   │   ├── StudentTable.js     # List all students component
 │   │   ├── CreateStudent.js    # Create new student form
 │   │   ├── EditStudent.js      # Edit student form
-│   │   └── ViewDetails.js      # View student details
+│   │   ├── ViewDetails.js      # View student details
+│   │   └── config.js           # API configuration
 │   ├── package.json            # Dependencies and scripts
 │   └── README.md              # This file
-└── db.json                    # JSON database file
 ```
 
 ## 📦 Prerequisites
@@ -88,96 +88,92 @@ Before you begin, ensure you have the following installed:
    This will install all required packages including:
    - React and React DOM
    - React Router DOM
-   - json-server (as dev dependency)
    - Testing libraries
+
+## 🌐 API Setup (MockAPI.io)
+
+This project uses **MockAPI.io** as the backend API. You need to set up your MockAPI endpoint:
+
+1. **Create a MockAPI Resource:**
+   - Go to [https://mockapi.io/](https://mockapi.io/)
+   - Sign up for a free account
+   - Create a new project
+   - Create a resource named `students` (or your preferred name)
+   - MockAPI will provide you with an API URL like: `https://692bf36ec829d464006e0a4d.mockapi.io/students`
+
+2. **Update API Configuration:**
+   - Open `src/config.js`
+   - Update the `API_BASE_URL` with your MockAPI URL:
+   ```javascript
+   export const API_BASE_URL = 'https://YOUR-API-ID.mockapi.io';
+   ```
+   - Update the endpoint name if different from `students`:
+   ```javascript
+   export const API_ENDPOINTS = {
+     STUDENTS: `${API_BASE_URL}/your-endpoint-name`
+   };
+   ```
 
 ## ▶️ Running the Application
 
-This application requires **two separate terminal windows** to run properly:
+Since we're using MockAPI.io (cloud-based), you only need to run the React application:
 
-### Terminal 1: Start the JSON Server (Backend API)
+### Start the React Application
 
-The JSON server provides the REST API endpoints. It reads from `db.json` file located in the parent directory.
-
-```bash
-npm run server
-```
-
-Or manually:
-```bash
-json-server --watch ../db.json --port 3000
-```
-
-You should see:
-```
-\{^_^}/ hi!
-
-Loading ../db.json
-Done
-
-Resources
-http://localhost:3000/students
-
-Home
-http://localhost:3000
-```
-
-**Keep this terminal running!**
-
-### Terminal 2: Start the React Application (Frontend)
-
-In a new terminal window, navigate to the project directory and start the React development server:
+Navigate to the project directory and start the React development server:
 
 ```bash
 cd studentdata
 npm start
 ```
 
-The application will automatically open in your browser at `http://localhost:3000` (or the next available port, typically 3001 if 3000 is occupied by json-server).
+The application will automatically open in your browser at `http://localhost:3000`.
 
-**Note:** If port 3000 is already in use by json-server, React will automatically use port 3001.
+**That's it!** No need to run a separate backend server. MockAPI.io handles all API requests in the cloud.
 
 ## 🌐 API Endpoints
 
-The json-server provides the following REST API endpoints:
+MockAPI.io provides the following REST API endpoints:
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/students` | Get all students |
-| GET | `/students/:id` | Get a specific student by ID |
-| POST | `/students` | Create a new student |
-| PUT | `/students/:id` | Update an existing student |
-| DELETE | `/students/:id` | Delete a student |
+| GET | `https://YOUR-API-ID.mockapi.io/students` | Get all students |
+| GET | `https://YOUR-API-ID.mockapi.io/students/:id` | Get a specific student by ID |
+| POST | `https://YOUR-API-ID.mockapi.io/students` | Create a new student |
+| PUT | `https://YOUR-API-ID.mockapi.io/students/:id` | Update an existing student |
+| DELETE | `https://YOUR-API-ID.mockapi.io/students/:id` | Delete a student |
+
+**Note:** MockAPI automatically generates unique IDs for new records, so you don't need to provide an `id` field when creating new students (though you can if needed).
 
 ### Example API Usage
 
 ```javascript
 // Get all students
-fetch('http://localhost:3000/students')
+fetch('https://YOUR-API-ID.mockapi.io/students')
   .then(res => res.json())
   .then(data => console.log(data));
 
 // Get a specific student
-fetch('http://localhost:3000/students/1')
+fetch('https://YOUR-API-ID.mockapi.io/students/1')
   .then(res => res.json())
   .then(data => console.log(data));
 
-// Create a new student
-fetch('http://localhost:3000/students', {
+// Create a new student (MockAPI auto-generates ID)
+fetch('https://YOUR-API-ID.mockapi.io/students', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ id: '5', name: 'John Doe', place: 'New York', phone: '1234567890' })
+  body: JSON.stringify({ name: 'John Doe', place: 'New York', phone: '1234567890' })
 });
 
 // Update a student
-fetch('http://localhost:3000/students/1', {
+fetch('https://YOUR-API-ID.mockapi.io/students/1', {
   method: 'PUT',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ id: '1', name: 'Jane Doe', place: 'California', phone: '0987654321' })
+  body: JSON.stringify({ name: 'Jane Doe', place: 'California', phone: '0987654321' })
 });
 
 // Delete a student
-fetch('http://localhost:3000/students/1', {
+fetch('https://YOUR-API-ID.mockapi.io/students/1', {
   method: 'DELETE'
 });
 ```
@@ -262,37 +258,48 @@ fetch('http://localhost:3000/students/1', {
 ## 🔧 Troubleshooting
 
 ### Issue: Data not loading
-- **Solution**: Make sure json-server is running on port 3000
-- Check that `db.json` exists in the parent directory (`../db.json`)
+- **Solution**: 
+  - Verify your MockAPI endpoint URL is correct in `src/config.js`
+  - Check that your MockAPI resource is created and accessible
+  - Open browser DevTools (F12) → Network tab to see API requests
+  - Check the Console tab for error messages
 
 ### Issue: Cannot create/update/delete
-- **Solution**: Verify json-server is running and accessible at `http://localhost:3000`
-- Check browser console for error messages
-
-### Issue: Port already in use
 - **Solution**: 
-  - For json-server: Change port in `package.json` script: `--port 3001`
-  - For React: It will automatically use the next available port
+  - Verify your MockAPI endpoint URL is correct
+  - Check MockAPI.io dashboard to see if requests are being received
+  - Ensure you're using the correct HTTP methods (POST, PUT, DELETE)
+  - Check browser console for CORS or network errors
 
 ### Issue: CORS errors
-- **Solution**: json-server handles CORS automatically, but if issues persist, check that both servers are running
+- **Solution**: MockAPI.io handles CORS automatically. If you see CORS errors:
+  - Verify your API URL is correct
+  - Check that your MockAPI resource exists
+  - Try accessing the API directly in browser to test
+
+### Issue: Port already in use
+- **Solution**: React will automatically use the next available port (3001, 3002, etc.)
+
+### Issue: API returns 404
+- **Solution**: 
+  - Double-check your endpoint name matches the resource name in MockAPI
+  - Verify the API base URL in `src/config.js`
+  - Test the API endpoint directly in your browser
 
 ## 📝 Data Structure
 
-The `db.json` file structure:
+The student data structure used in MockAPI:
 
 ```json
 {
-  "students": [
-    {
-      "id": "1",
-      "name": "John Kumar",
-      "place": "Kerala",
-      "phone": "1234567890"
-    }
-  ]
+  "id": "1",
+  "name": "John Kumar",
+  "place": "Kerala",
+  "phone": "1234567890"
 }
 ```
+
+**Note:** MockAPI automatically adds an `id` field (and `createdAt` timestamp) to each record. You can include an `id` field in your POST request, but MockAPI will use its own generated ID if you don't.
 
 ## 🎓 Learning Concepts Demonstrated
 
