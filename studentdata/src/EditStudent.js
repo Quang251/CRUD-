@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { API_ENDPOINTS } from './config';
 
 export default function EditStudent() {
     const { studentid } = useParams();
@@ -11,7 +12,7 @@ export default function EditStudent() {
     const navigate = useNavigate();
     //const [studentData, setStudentData] = useState({});
     useEffect(() => {
-        fetch(`http://localhost:3000/students/${studentid}`)
+        fetch(`${API_ENDPOINTS.STUDENTS}/${studentid}`)
         .then((res) => res.json())
         .then((data) => {
             setId(data.id);
@@ -26,7 +27,7 @@ export default function EditStudent() {
         const studentData = {id, name, place, phone};
        
     
-        fetch(`http://localhost:3000/students/${studentid}`, {
+        fetch(`${API_ENDPOINTS.STUDENTS}/${studentid}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

@@ -1,11 +1,12 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { API_ENDPOINTS } from './config';
 
 export default function ViewDetails() {  
     const { studentid } = useParams();
     const [studentData, setStudentData] = useState({});
     useEffect(() => {
-        fetch(`http://localhost:3000/students/${studentid}`)
+        fetch(`${API_ENDPOINTS.STUDENTS}/${studentid}`)
         .then((res) => res.json())
         .then((data) => 
             setStudentData(data))

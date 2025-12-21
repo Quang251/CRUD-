@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from './config';
 
 
 export default function CreateStudent() {
-  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [place, setPlace] = useState('');
   const [phone, setPhone] = useState('');
@@ -11,10 +11,16 @@ export default function CreateStudent() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const studentData = {id, name, place, phone};
-    console.log(studentData);
+    // MockAPI tự tạo ID (Object ID), không cần gửi id
+    // Phone: Convert to number vì schema định nghĩa là Number
+    const studentData = {
+      name: name,
+      place: place,
+      phone: Number(phone) || phone // Convert to number, fallback to string if invalid
+    };
+    console.log('Sending data:', studentData);
 
-    fetch('http://localhost:3000/students', {
+    fetch(API_ENDPOINTS.STUDENTS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -31,12 +37,7 @@ export default function CreateStudent() {
       <div className="container">   
         <h2>Add New Student</h2>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="id">ID:</label>
-            <input type="text" id="id" name="id" required value={id} 
-            onChange={(e) => setId(e.target.value)}
-            onMouseDown={() => setValidation(true)} />
-            {id.length===0 && validation && <span className= 'error-message'>ID is required</span> }
-           
+            {/* ID sẽ được MockAPI tự động tạo, không cần input */}
             <label htmlFor="name">Name:</label>
             <input type="text" id="name" name="name" required value={name} onChange={(e) => setName(e.target.value)} 
             onMouseDown={() => setValidation(true)}/>
